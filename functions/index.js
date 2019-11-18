@@ -273,6 +273,7 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
   const soldDate = body.soldDate;
   const occupancyDate = body.occupancyDate;
   const sound = body.sound;
+  const priority = body.priority;
 
 
   const payload = {
@@ -280,7 +281,7 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
       title: ntTitle,
       body: ntDesc,
       sound: sound!=undefined?sound:"oye_msg_tone.mp3",
-      priority: "high"
+      priority: priority!=undefined?priority:"high"
     },
     data: {
       userID: `${userID}`,
