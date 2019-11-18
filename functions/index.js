@@ -272,12 +272,14 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
   const roleName = body.roleName;
   const soldDate = body.soldDate;
   const occupancyDate = body.occupancyDate;
+  const sound = body.sound;
+
 
   const payload = {
     notification: {
       title: ntTitle,
       body: ntDesc,
-      sound: "oye_msg_tone.mp3",
+      sound: sound!=undefined?sound:"oye_msg_tone.mp3",
       priority: "high"
     },
     data: {
