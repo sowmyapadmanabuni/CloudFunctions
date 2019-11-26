@@ -14,7 +14,7 @@ exports.sendUserNotification = functions.https.onRequest((req, res) => {
     notification: {
       title: ntTitle,
       body: ntDesc,
-      sound: "default",
+      sound: "oye_msg_tone.mp3",
       priority: "high"
     },
     data: {
@@ -56,7 +56,7 @@ exports.sendAdminNotification = functions.https.onRequest((req, res) => {
     notification: {
       title: ntTitle,
       body: ntDesc,
-      sound: "default",
+      sound: "oye_msg_tone.mp3",
       priority: "high"
     },
     data: {
@@ -115,7 +115,7 @@ exports.sendAdminNotificationFromKotlin = functions.https.onRequest(
       notification: {
         title: ntTitle,
         body: ntDesc,
-        sound: "default",
+        sound: "oye_msg_tone.mp3",
         priority: "high"
       },
       data: {
@@ -235,7 +235,7 @@ exports.sendAllUserNotification = functions.https.onRequest((req, res) => {
     notification: {
       title: ntTitle,
       body: ntDesc,
-      sound: "default",
+      sound: "oye_msg_tone.mp3",
       priority: "high"
     },
     data: {
@@ -280,7 +280,7 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
     notification: {
       title: ntTitle,
       body: ntDesc,
-      sound: sound!=undefined?sound:"oye_msg_tone.mp3",
+      sound: "oye_msg_tone.mp3",
       priority: priority!=undefined?priority:"high"
     },
     data: {
@@ -299,7 +299,9 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
       roleName: `${roleName}`,
       soldDate: `${soldDate}`,
       occupancyDate: `${occupancyDate}`,
-      admin: "true"
+      admin: "true",
+      //sound: sound!=undefined?sound:"oye_msg_tone.mp3",
+      //priority: priority!=undefined?priority:"high"
     }
   };
 
