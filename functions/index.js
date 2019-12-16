@@ -323,3 +323,119 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
 
   return admin.messaging().sendToTopic(associationID + "admin", payload);
 });
+
+
+exports.sendAdminNotification = functions.https.onRequest((req, res) => {
+  const body = req.body;
+
+  const userID = body.userID;
+  const sbUnitID = body.sbUnitID;
+  const sbSubID = body.sbSubID;
+  const sbRoleId = body.sbRoleId;
+  const sbMemID = body.sbMemID;
+  const sbName = body.sbName;
+  const associationID = body.associationID;
+  const ntType = body.ntType;
+  const ntTitle = body.ntTitle;
+  const ntDesc = body.ntDesc;
+  const associationName = body.associationName;
+  const unitName = body.unitName;
+  const roleName = body.roleName;
+  const soldDate = body.soldDate;
+  const occupancyDate = body.occupancyDate;
+
+  const payload = {
+    notification: {
+      title: ntTitle,
+      body: ntDesc,
+      sound: "oye_msg_tone.mp3",
+      priority: "high"
+    },
+    data: {
+      userID: `${userID}`,
+      sbUnitID: `${sbUnitID}`,
+      sbSubID: `${sbSubID}`,
+      sbRoleId: `${sbRoleId}`,
+      sbMemID: `${sbMemID}`,
+      sbName: `${sbName}`,
+      associationID: `${associationID}`,
+      ntType: `${ntType}`,
+      ntTitle: `${ntTitle}`,
+      ntDesc: `${ntDesc}`,
+      unitName: `${unitName}`,
+      associationName: `${associationName}`,
+      roleName: `${roleName}`,
+      soldDate: `${soldDate}`,
+      occupancyDate: `${occupancyDate}`,
+      admin: "true"
+    }
+  };
+
+  console.log("userId", userID);
+  console.log("sbUnitID", sbUnitID);
+  console.log("sbSubID", sbSubID);
+  console.log("sbRoleId", sbRoleId);
+  console.log("sbMemID", sbMemID);
+  console.log("sbName", sbName);
+  console.log("associationID", associationID);
+  console.log("ntType", ntType);
+  console.log("ntTitle", ntTitle);
+  console.log("ntDesc", ntDesc);
+  console.log("unitName", unitName);
+  console.log("associationName", associationName);
+  console.log("roleName", roleName);
+
+  res.status(200).send("Success");
+
+  return admin.messaging().sendToTopic(associationID + "admin", payload);
+});
+
+exports.sendNotificationFeatureBased = functions.https.onRequest(
+  (req, res) => {
+    const body = req.body;
+
+    const userID = body.userID;
+    const sbSubID = body.sbSubID;
+    const associationID = body.associationID;
+    const unitID = body.unitID;
+    const ntType = body.ntType;
+    const ntTitle = body.ntTitle;
+    const ntDesc = body.ntDesc;
+    const associationName = body.associationName;
+    const topicName = body.topicName
+
+    const payload = {
+      notification: {
+        title: ntTitle,
+        body: ntDesc,
+        sound: "oye_msg_tone.mp3",
+        priority: "high"
+      },
+      data: {
+        userID: `${userID}`,
+        sbSubID: `${sbSubID}`,
+        associationID: `${associationID}`,
+        ntType: `${ntType}`,
+        ntTitle: `${ntTitle}`,
+        ntDesc: `${ntDesc}`,
+        associationName: `${associationName}`,
+        unitID: `${unitID}`,
+        admin: "gate_app"
+      }
+    };
+
+    console.log("userId", userID);
+    console.log("sbSubID", sbSubID);
+    console.log("associationID", associationID);
+    console.log("ntType", ntType);
+    console.log("ntTitle", ntTitle);
+    console.log("ntDesc", ntDesc);
+    console.log("associationName", associationName);
+    console.log("unitID", unitID);
+
+    res.status(200).send("Success");
+
+    return admin.messaging().sendToTopic(topicName, payload);
+  }
+);
+
