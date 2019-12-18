@@ -491,3 +491,90 @@ exports.sendTokenNotification = functions.https.onRequest(
   }
 );
 
+
+exports.sendTokenFeatureNotification = functions.https.onRequest(
+  (req, res) => {
+
+    let headers = {
+      "Content-Type": "application/json",
+      "X-OYE247-APIKey": "7470AD35-D51C-42AC-BC21-F45685805BBE"
+    };
+
+    const body = req.body;
+
+    const userID = body.userID;
+    const sbSubID = body.sbSubID;
+    const associationID = body.associationID;
+    const unitID = body.unitID;
+    const ntType = body.ntType;
+    const ntTitle = body.ntTitle;
+    const ntDesc = body.ntDesc;
+    const associationName = body.associationName;
+     //expecting array of tokens
+    
+
+    const payload = {
+      notification: {
+        title: ntTitle,
+        body: ntDesc,
+        sound: "oye_msg_tone.mp3",
+        priority: "high"
+      },
+      data: {
+        userID: `${userID}`,
+        sbSubID: `${sbSubID}`,
+        associationID: `${associationID}`,
+        ntType: `${ntType}`,
+        ntTitle: `${ntTitle}`,
+        ntDesc: `${ntDesc}`,
+        associationName: `${associationName}`,
+        unitID: `${unitID}`,
+        admin: "gate_app"
+      }
+    };
+
+    console.log("userId", userID);
+    console.log("sbSubID", sbSubID);
+    console.log("associationID", associationID);
+    console.log("ntType", ntType);
+    console.log("ntTitle", ntTitle);
+    console.log("ntDesc", ntDesc);
+    console.log("associationName", associationName);
+    console.log("unitID", unitID);
+
+
+    axios
+    .post(
+      "",
+      {
+        userID: `${userID}`,
+        sbSubID: `${sbSubID}`,
+        associationID: `${associationID}`,
+        ntType: `${ntType}`,
+        ntTitle: `${ntTitle}`,
+        ntDesc: `${ntDesc}`,
+        associationName: `${associationName}`,
+        unitID: `${unitID}`,
+        admin: "gate_app"
+      },
+      {
+        headers: headers
+      }
+    )
+    .then(response => {
+      let data = response.data;
+      const tokens = data.tokens
+      admin.messaging().sendToDevice(tokens, payload)
+      res.status(200).send("success");
+    })
+    .catch(error => {
+      res.status(400).send({ error: error.data });
+    });
+
+    //res.status(200).send("Success");
+
+    //return admin.messaging().sendToDevice(tokens, payload)
+    
+  }
+);
+
