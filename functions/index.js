@@ -439,3 +439,55 @@ exports.sendNotificationFeatureBased = functions.https.onRequest(
   }
 );
 
+
+exports.sendTokenNotification = functions.https.onRequest(
+  (req, res) => {
+    const body = req.body;
+
+    const userID = body.userID;
+    const sbSubID = body.sbSubID;
+    const associationID = body.associationID;
+    const unitID = body.unitID;
+    const ntType = body.ntType;
+    const ntTitle = body.ntTitle;
+    const ntDesc = body.ntDesc;
+    const associationName = body.associationName;
+    const tokens = body.tokens //expecting array of tokens
+    
+
+    const payload = {
+      notification: {
+        title: ntTitle,
+        body: ntDesc,
+        sound: "oye_msg_tone.mp3",
+        priority: "high"
+      },
+      data: {
+        userID: `${userID}`,
+        sbSubID: `${sbSubID}`,
+        associationID: `${associationID}`,
+        ntType: `${ntType}`,
+        ntTitle: `${ntTitle}`,
+        ntDesc: `${ntDesc}`,
+        associationName: `${associationName}`,
+        unitID: `${unitID}`,
+        admin: "gate_app"
+      }
+    };
+
+    console.log("userId", userID);
+    console.log("sbSubID", sbSubID);
+    console.log("associationID", associationID);
+    console.log("ntType", ntType);
+    console.log("ntTitle", ntTitle);
+    console.log("ntDesc", ntDesc);
+    console.log("associationName", associationName);
+    console.log("unitID", unitID);
+
+    res.status(200).send("Success");
+
+    return admin.messaging().sendToDevice(tokens, payload)
+    //return admin.messaging().sendToTopic(topicName, payload);
+  }
+);
+
