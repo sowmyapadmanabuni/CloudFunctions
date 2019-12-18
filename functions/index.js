@@ -510,6 +510,7 @@ exports.sendTokenFeatureNotification = functions.https.onRequest(
     const ntTitle = body.ntTitle;
     const ntDesc = body.ntDesc;
     const associationName = body.associationName;
+    const topicName = body.topicName
      //expecting array of tokens
     
 
