@@ -1,6 +1,7 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const axios = require("axios");
+const cors = require('cors')({ origin: true, });
 const moment = admin.initializeApp(functions.config().firebase);
 
 exports.sendUserNotification = functions.https.onRequest((req, res) => {
@@ -34,7 +35,8 @@ exports.sendUserNotification = functions.https.onRequest((req, res) => {
 });
 
 exports.sendAdminNotification = functions.https.onRequest((req, res) => {
-  const body = req.body;
+ //return cors(req, res, () => {  
+    const body = req.body;
 
   const userID = body.userID;
   const sbUnitID = body.sbUnitID;
@@ -96,10 +98,23 @@ exports.sendAdminNotification = functions.https.onRequest((req, res) => {
   res.status(200).send("Success");
 
   return admin.messaging().sendToTopic(associationID + "admin", payload);
+ // });
+  
 });
 
 exports.sendAdminNotificationFromKotlin = functions.https.onRequest(
   (req, res) => {
+    // return cors(req, res, () => {  
+
+      // res.header('Content-Type','application/json');
+      // res.header('Access-Control-Allow-Origin', '*');
+      // res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  
+      // //respond to CORS preflight requests
+      // if (req.method == 'OPTIONS') {
+      //     res.status(204).send('');
+      // }
+     // return cors(req, res, () => {    
     const body = req.body;
 
     const userID = body.userID;
@@ -143,6 +158,7 @@ exports.sendAdminNotificationFromKotlin = functions.https.onRequest(
     res.status(200).send("Success");
 
     return admin.messaging().sendToTopic(unitID + "admin", payload);
+  // })
   }
 );
 
@@ -325,70 +341,70 @@ exports.sendAdminCustomNotification = functions.https.onRequest((req, res) => {
 });
 
 
-exports.sendAdminNotification = functions.https.onRequest((req, res) => {
-  const body = req.body;
+// exports.sendAdminNotification = functions.https.onRequest((req, res) => {
+//   const body = req.body;
 
-  const userID = body.userID;
-  const sbUnitID = body.sbUnitID;
-  const sbSubID = body.sbSubID;
-  const sbRoleId = body.sbRoleId;
-  const sbMemID = body.sbMemID;
-  const sbName = body.sbName;
-  const associationID = body.associationID;
-  const ntType = body.ntType;
-  const ntTitle = body.ntTitle;
-  const ntDesc = body.ntDesc;
-  const associationName = body.associationName;
-  const unitName = body.unitName;
-  const roleName = body.roleName;
-  const soldDate = body.soldDate;
-  const occupancyDate = body.occupancyDate;
+//   const userID = body.userID;
+//   const sbUnitID = body.sbUnitID;
+//   const sbSubID = body.sbSubID;
+//   const sbRoleId = body.sbRoleId;
+//   const sbMemID = body.sbMemID;
+//   const sbName = body.sbName;
+//   const associationID = body.associationID;
+//   const ntType = body.ntType;
+//   const ntTitle = body.ntTitle;
+//   const ntDesc = body.ntDesc;
+//   const associationName = body.associationName;
+//   const unitName = body.unitName;
+//   const roleName = body.roleName;
+//   const soldDate = body.soldDate;
+//   const occupancyDate = body.occupancyDate;
 
-  const payload = {
-    notification: {
-      title: ntTitle,
-      body: ntDesc,
-      sound: "oye_msg_tone.mp3",
-      priority: "high"
-    },
-    data: {
-      userID: `${userID}`,
-      sbUnitID: `${sbUnitID}`,
-      sbSubID: `${sbSubID}`,
-      sbRoleId: `${sbRoleId}`,
-      sbMemID: `${sbMemID}`,
-      sbName: `${sbName}`,
-      associationID: `${associationID}`,
-      ntType: `${ntType}`,
-      ntTitle: `${ntTitle}`,
-      ntDesc: `${ntDesc}`,
-      unitName: `${unitName}`,
-      associationName: `${associationName}`,
-      roleName: `${roleName}`,
-      soldDate: `${soldDate}`,
-      occupancyDate: `${occupancyDate}`,
-      admin: "true"
-    }
-  };
+//   const payload = {
+//     notification: {
+//       title: ntTitle,
+//       body: ntDesc,
+//       sound: "oye_msg_tone.mp3",
+//       priority: "high"
+//     },
+//     data: {
+//       userID: `${userID}`,
+//       sbUnitID: `${sbUnitID}`,
+//       sbSubID: `${sbSubID}`,
+//       sbRoleId: `${sbRoleId}`,
+//       sbMemID: `${sbMemID}`,
+//       sbName: `${sbName}`,
+//       associationID: `${associationID}`,
+//       ntType: `${ntType}`,
+//       ntTitle: `${ntTitle}`,
+//       ntDesc: `${ntDesc}`,
+//       unitName: `${unitName}`,
+//       associationName: `${associationName}`,
+//       roleName: `${roleName}`,
+//       soldDate: `${soldDate}`,
+//       occupancyDate: `${occupancyDate}`,
+//       admin: "true"
+//     }
+//   };
 
-  console.log("userId", userID);
-  console.log("sbUnitID", sbUnitID);
-  console.log("sbSubID", sbSubID);
-  console.log("sbRoleId", sbRoleId);
-  console.log("sbMemID", sbMemID);
-  console.log("sbName", sbName);
-  console.log("associationID", associationID);
-  console.log("ntType", ntType);
-  console.log("ntTitle", ntTitle);
-  console.log("ntDesc", ntDesc);
-  console.log("unitName", unitName);
-  console.log("associationName", associationName);
-  console.log("roleName", roleName);
+//   console.log("userId", userID);
+//   console.log("sbUnitID", sbUnitID);
+//   console.log("sbSubID", sbSubID);
+//   console.log("sbRoleId", sbRoleId);
+//   console.log("sbMemID", sbMemID);
+//   console.log("sbName", sbName);
+//   console.log("associationID", associationID);
+//   console.log("ntType", ntType);
+//   console.log("ntTitle", ntTitle);
+//   console.log("ntDesc", ntDesc);
+//   console.log("unitName", unitName);
+//   console.log("associationName", associationName);
+//   console.log("roleName", roleName);
 
-  res.status(200).send("Success");
+//   res.status(200).send("Success");
 
-  return admin.messaging().sendToTopic(associationID + "admin", payload);
-});
+//   return admin.messaging().sendToTopic(associationID + "admin", payload);
+// });
 
 exports.sendNotificationFeatureBased = functions.https.onRequest(
   (req, res) => {
